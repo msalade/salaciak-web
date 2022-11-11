@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const AboutMe = () => {
   const exp = Math.abs(new Date(Date.now()).getUTCFullYear() - 2018);
 
