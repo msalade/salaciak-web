@@ -1,0 +1,10 @@
+const Tech = () => (
+  <span>
+    <strong>.NET</strong>, <strong>Node.js</strong>, <strong>React</strong>,{" "}
+    <strong>React Native</strong>, <strong>C#</strong>,{" "}
+    <strong>JavaScript</strong>, <strong>TypeScript</strong>
+    <br />
+  </span>
+);
+
+export default Tech;

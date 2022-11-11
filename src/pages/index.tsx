@@ -1,5 +1,6 @@
 import Head from "next/head";
-import Terminal from "../components/Terminal/Terminal";
+import Terminal from "../components/Terminal";
+import { EmailContextTypeProvider } from "../context/EmailContext";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -12,7 +13,9 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <Terminal />
+        <EmailContextTypeProvider>
+          <Terminal />
+        </EmailContextTypeProvider>
       </main>
     </div>
   );
