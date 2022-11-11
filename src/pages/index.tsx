@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Terminal from "../components/Terminal/Terminal";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -11,13 +12,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Hello! My name is <a href="https://www.linkedin.com/in/michal-salaciak/">Michał Sałaciak</a>
-        </h1>
-
-        <p className={styles.description}>
-          Im <code className={styles.code}>full stack</code> developer.
-        </p>
+        <Terminal />
       </main>
     </div>
   );
