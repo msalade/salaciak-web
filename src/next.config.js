@@ -6,6 +6,12 @@ const nextConfig = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  headers: async () => [
+    {
+      key: "Cache-Control",
+      value: "public, max-age=31536000, immutable",
+    },
+  ],
 };
 
 const withPWA = require("next-pwa")({
