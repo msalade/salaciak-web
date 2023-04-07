@@ -9,9 +9,15 @@ import Social from "./Social";
 
 const expData = [
   {
+    title: "Senior Development Engineer",
+    company:
+      "Apptio · Full-timeApptio · Full-time · Apr 2023 - Present · 1 mos",
+    description: `Coming soon`,
+  },
+  {
     title: "Software Development Engineer II",
     company:
-      "Apptio · Full-timeApptio · Full-time · Feb 2022 - Present · 10 mos",
+      "Apptio · Full-timeApptio · Full-time · Feb 2022 - Apr 2023 · 1 yr 3 mos",
     description: `Coming soon`,
   },
   {
