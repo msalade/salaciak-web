@@ -6,6 +6,7 @@ import Experience from "./Experience";
 import Tech from "./Tech";
 import Contact from "./Contact";
 import Social from "./Social";
+import { ThemeType } from "./themes";
 
 const expData = [
   {
@@ -38,9 +39,33 @@ const expData = [
   },
 ];
 
-export const commands = {
+export const commands = (setTheme: (theme: ThemeType) => void) => ({
   help: Help,
   ls: Ls,
+  theme: (theme: ThemeType) => {
+    switch (theme) {
+      case "light":
+      case "dark":
+      case "total-dark":
+      case "material-light":
+      case "material-dark":
+      case "material-ocean":
+      case "matrix":
+      case "dracula": {
+        setTheme(theme);
+        return <span>Theme set!</span>;
+      }
+      default: {
+        return (
+          <span>
+            theme {theme}: No such theme. Available themes: light, dark,
+            total-dark, material-light, material-dark, material-ocean, matrix
+            and dracula
+          </span>
+        );
+      }
+    }
+  },
   cat: (file: string) => {
     switch (file) {
       case "about_me.md": {
@@ -66,4 +91,4 @@ export const commands = {
       }
     }
   },
-};
+});

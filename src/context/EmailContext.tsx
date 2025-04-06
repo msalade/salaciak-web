@@ -1,13 +1,21 @@
-import { createContext, useMemo, useState, PropsWithChildren, useContext } from "react";
+import {
+  createContext,
+  useMemo,
+  useState,
+  PropsWithChildren,
+  useContext,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
 type EmailContextType = {
   email: string;
-  setEmail: (email: string) => void;
+  setEmail: Dispatch<SetStateAction<string>>;
 };
 
 const EmailContext = createContext<EmailContextType>({} as EmailContextType);
 
-export const useEmailContext = () => useContext(EmailContext)
+export const useEmailContext = () => useContext(EmailContext);
 
 export const EmailContextTypeProvider = ({ children }: PropsWithChildren) => {
   const [email, setEmail] = useState("");
@@ -20,7 +28,5 @@ export const EmailContextTypeProvider = ({ children }: PropsWithChildren) => {
     [email, setEmail]
   );
 
-  return (
-    <EmailContext.Provider value={value}>{children}</EmailContext.Provider>
-  );
+  return <EmailContext value={value}>{children}</EmailContext>;
 };

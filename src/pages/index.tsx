@@ -1,8 +1,9 @@
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic";
 import { EmailContextTypeProvider } from "../context/EmailContext";
 import styles from "../styles/Home.module.css";
-
-const Terminal = dynamic(() => import("../components/Terminal"), { ssr: false })
+const Terminal = dynamic(() => import("../components/Terminal"), {
+  ssr: false,
+});
 
 export default function Home() {
   return (

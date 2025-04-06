@@ -1,5 +1,7 @@
 import { TerminalContextProvider, ReactTerminal } from "react-terminal";
 import { commands } from "./commands";
+import useLocalStorage from "../hooks/useLocalStorage";
+import { themes, ThemeType } from "./themes";
 
 const welcomeMessage = (
   <span>
@@ -7,22 +9,18 @@ const welcomeMessage = (
   </span>
 );
 
-const themes = {
-  totalDark: {
-    themeBGColor: "#000000",
-    themeToolbarColor: "#0D0208",
-    themeColor: "#00FF41",
-    themePromptColor: "#008F11"
-  }
-}
-
 const Terminal = () => {
+  const [theme, setTheme] = useLocalStorage<ThemeType>(
+    "salaciak-web-theme",
+    "dracula"
+  );
+
   return (
     <TerminalContextProvider>
       <ReactTerminal
-        commands={commands}
+        commands={commands(setTheme)}
         welcomeMessage={welcomeMessage}
-        theme="totalDark"
+        theme={theme}
         showControlBar={false}
         showControlButtons={false}
         prompt="msalaciak >"
