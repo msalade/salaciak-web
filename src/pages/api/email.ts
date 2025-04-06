@@ -43,7 +43,6 @@ export default async function handler(
     }
 
   } catch (err: any) {
-
     res.status(500).json({ message: err.message });
   }
 }

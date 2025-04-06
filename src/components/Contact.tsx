@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useState } from "react";
 import Recaptcha from "react-google-recaptcha";
 import { useEmailContext } from "../context/EmailContext";
 

@@ -24,9 +24,9 @@
     "typescript": "5.8.3"
   },
   "devDependencies": {
-    "@types/react-google-recaptcha": "2.1.9",
     "@types/node": "22.14.0",
     "@types/react": "19.1.0",
-    "@types/react-dom": "19.1.0"
+    "@types/react-dom": "19.1.0",
+    "@types/react-google-recaptcha": "2.1.9"
   }
 }
