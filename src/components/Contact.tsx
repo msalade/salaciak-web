@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
-import Recaptcha from "react-google-recaptcha";
 import { useEmailContext } from "../context/EmailContext";
+import Captcha from "./Captcha";
 
 const Contact = () => {
   const [message, setMessage] = useState("");
@@ -27,10 +27,7 @@ const Contact = () => {
 
   return (
     <>
-      <Recaptcha
-        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_WEB_SECRET as string}
-        onChange={getEmail}
-      />
+      <Captcha onChange={getEmail} />
       {email || message}
     </>
   );

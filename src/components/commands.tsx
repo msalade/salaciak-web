@@ -6,6 +6,7 @@ import Experience from "./Experience";
 import Tech from "./Tech";
 import Contact from "./Contact";
 import Social from "./Social";
+import Cv from "./Cv";
 import { ThemeType } from "./themes";
 
 const expData = [
@@ -62,6 +63,18 @@ export const commands = (setTheme: (theme: ThemeType) => void) => ({
             total-dark, material-light, material-dark, material-ocean, matrix
             and dracula
           </span>
+        );
+      }
+    }
+  },
+  curl: (file: string) => {
+    switch (file) {
+      case "cv.pdf": {
+        return <Cv />;
+      }
+      default: {
+        return (
+          <span>cat: fail to download {file}, supported extensions: .pdf</span>
         );
       }
     }

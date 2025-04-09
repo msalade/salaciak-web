@@ -11,8 +11,9 @@ const Ls = () => (
     <br />
     ├── contact.md
     <br />
-    └── social.md
+    ├── social.md
     <br />
+    └── cv.pdf
   </span>
 );
 
