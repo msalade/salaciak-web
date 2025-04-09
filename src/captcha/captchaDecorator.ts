@@ -14,11 +14,15 @@ export const withCaptchaValidator =
       return res.status(400).json({ message: "Token must be string" });
     }
 
-    const isTokenValid = await captchaValidator.isValid(token);
+    try {
+      const isTokenValid = await captchaValidator.isValid(token);
 
-    if (!isTokenValid) {
-      return res.status(400).json({ message: "Invalid token" });
+      if (!isTokenValid) {
+        return res.status(400).json({ message: "Invalid token" });
+      }
+
+      handler(req, res);
+    } catch (error: any) {
+      return res.status(500).json({ message: error.message });
     }
-
-    handler(req, res);
   };

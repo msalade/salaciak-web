@@ -18,7 +18,7 @@ const Cv = () => {
       <Captcha onChange={getEmail} />
       {message ||
         (token && (
-          <a href={`/api/cv?token=${token}`}>
+          <a href={`/api/cv?token=${token}`} target="_blank">
             Download CSV
           </a>
         ))}
