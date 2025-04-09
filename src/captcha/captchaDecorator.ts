@@ -4,7 +4,7 @@ import captchaValidator from "./validator";
 export const withCaptchaValidator =
   <T>(handler: NextApiHandler<T>): NextApiHandler<unknown> =>
   async (req, res) => {
-    const token = req.query.token as string;
+    const token = req.query.token;
 
     if (!token) {
       return res.status(400).json({ message: "Token is required" });
