@@ -40,3 +40,7 @@ src/public/sw.js
 src/public/sw.js.map
 src/public/swe-worker*
 src/public/workbox-*
+
+# Playwright
+src/playwright-report/
+src/test-results/

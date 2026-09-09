@@ -10,7 +10,10 @@
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test tests/*.test.ts",
-    "ci": "npm run lint && npm run typecheck && npm test && npm run build && npm audit --audit-level=high",
+    "test:ci": "mkdir -p test-results && node --import tsx --test --test-reporter=spec --test-reporter=junit --test-reporter-destination=stdout --test-reporter-destination=test-results/unit.xml tests/*.test.ts",
+    "ci": "npm run lint && npm run typecheck && npm run test:ci && npm run build && npm run e2e && npm audit --audit-level=high",
+    "e2e": "playwright test",
+    "e2e:install": "playwright install chromium",
     "prepare": "cd .. && husky src/.husky"
   },
   "dependencies": {
@@ -32,7 +35,9 @@
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.4",
     "jiti": "^2.6.1",
+    "@playwright/test": "^1.55.0",
     "husky": "^9.1.7",
+    "msw": "^2.10.5",
     "serwist": "9.5.12",
     "tsx": "4.23.13",
     "typescript": "6.0.3"

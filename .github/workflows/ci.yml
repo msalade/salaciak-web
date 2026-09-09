@@ -7,6 +7,8 @@ on:
 
 permissions:
   contents: read
+  actions: read
+  checks: write
 
 jobs:
   verify:
@@ -25,4 +27,39 @@ jobs:
       - run: npm install --ignore-scripts
         env:
           HUSKY: 0
-      - run: npm run ci
+      - run: npx playwright install --with-deps chromium
+      - name: Lint
+        run: npm run lint
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Unit tests
+        run: npm run test:ci
+      - name: Publish unit test report
+        if: ${{ !cancelled() && hashFiles('src/test-results/unit.xml') != '' }}
+        uses: dorny/test-reporter@v3
+        with:
+          name: Unit tests
+          path: src/test-results/unit.xml
+          reporter: java-junit
+      - name: Production build
+        run: npm run build
+      - name: End-to-end tests
+        run: npm run e2e
+      - name: Publish E2E test report
+        if: ${{ !cancelled() && hashFiles('src/test-results/e2e.xml') != '' }}
+        uses: dorny/test-reporter@v3
+        with:
+          name: Playwright E2E tests
+          path: src/test-results/e2e.xml
+          reporter: java-junit
+      - name: Upload test reports and diagnostics
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            src/test-results/**/*.xml
+            src/playwright-report/
+          if-no-files-found: warn
+      - name: Dependency audit
+        run: npm audit --audit-level=high

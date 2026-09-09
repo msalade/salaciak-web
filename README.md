@@ -13,9 +13,13 @@ and the profile summary. Results include links back to terminal commands, for ex
 `/?command=search%20kubernetes`.
 
 Quality checks are grouped in `npm run ci`: lint, typecheck, tests, production build,
-and `npm audit --audit-level=high`. GitHub Actions runs this command for pushes and
+Playwright end-to-end tests, and `npm audit --audit-level=high`. Install the browser once
+with `npm run e2e:install`; run `npm run e2e` locally. GitHub Actions runs these checks as
+separate pipeline steps for pushes and
 pull requests. Husky runs the same checks before every local commit; run commands from
 the `src` directory.
+In CI, the unit runner writes `test-results/unit.xml` and Playwright writes
+`test-results/e2e.xml`; both are published as GitHub check runs and uploaded as artifacts.
 After cloning, run `npm install` from `src` once to install Husky and refresh the lockfile
 if your checkout predates the Husky dependency.
 
@@ -25,7 +29,7 @@ if your checkout predates the Husky dependency.
 
 The application, Next.js configuration, service worker, and sitemap generator use strict TypeScript.
 
-Use Node.js 22.14 or newer. From `src`, run `npm ci`, then `npm run dev`.
+Use Node.js 22.14 or newer. From `src`, run `npm install`, then `npm run dev`.
 For a production build, run `npm run build` followed by `npm start`.
 
 Create `src/.env.local` with these settings:
