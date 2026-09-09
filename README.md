@@ -1,5 +1,13 @@
 # salaciak-web
 
+Command links open portfolio content directly: `/?command=projects`,
+`/?command=cat%20experience.md`, or `/?command=help`.
+Use `encodeURIComponent(command)` when creating links with arguments.
+The command runs once when its terminal session opens; visitors can continue typing
+commands or use `clear` normally. Unknown commands show the usual error message.
+Empty, repeated, multiline, or overlong (more than 256 characters) command parameters
+are ignored. Ordinary visits keep the existing welcome screen.
+
 ### My [personal website](https://michalsalaciak.pl/) in form of terminal.
 
 ![image](/img/my-web.png)

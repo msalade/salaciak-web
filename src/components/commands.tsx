@@ -8,6 +8,8 @@ import Contact from "./Contact";
 import Social from "./Social";
 import Cv from "./Cv";
 import Pong from "./Pong";
+import Projects from "./Projects";
+import type { CommandHandlers } from "../terminal/commandLinks";
 import { ThemeType } from "./themes";
 
 const expData = [
@@ -42,10 +44,11 @@ const expData = [
 ];
 
 export const commands = (setTheme: (theme: ThemeType) => void) => ({
-  help: Help,
-  ls: Ls,
-  pong: Pong,
-  theme: (theme: ThemeType) => {
+  help: () => <Help />,
+  ls: () => <Ls />,
+  pong: () => <Pong />,
+  projects: () => <Projects />,
+  theme: (theme: string) => {
     switch (theme) {
       case "light":
       case "dark":
@@ -106,4 +109,4 @@ export const commands = (setTheme: (theme: ThemeType) => void) => ({
       }
     }
   },
-});
+} satisfies CommandHandlers);

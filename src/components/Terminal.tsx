@@ -2,6 +2,10 @@ import { TerminalContextProvider, ReactTerminal } from "react-terminal";
 import { commands } from "./commands";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { themes, ThemeType } from "./themes";
+import { useMemo } from "react";
+import { useRouter } from "next/router";
+import { parseCommandLink } from "../terminal/commandLinks";
+import LinkedCommand from "./LinkedCommand";
 
 const welcomeMessage = (
   <span>
@@ -10,15 +14,22 @@ const welcomeMessage = (
 );
 
 const Terminal = () => {
+  const router = useRouter();
   const [theme, setTheme] = useLocalStorage<ThemeType>(
     "salaciak-web-theme",
     "dracula"
   );
+  const handlers = useMemo(() => commands(setTheme), [setTheme]);
+  const linkedCommand = parseCommandLink(router.query.command);
+
+  // Wait for the client router to decode the query before mounting the terminal.
+  if (!router.isReady) return null;
 
   return (
-    <TerminalContextProvider>
+    <TerminalContextProvider key={linkedCommand ?? ""}>
+      <LinkedCommand command={linkedCommand} handlers={handlers} />
       <ReactTerminal
-        commands={commands(setTheme)}
+        commands={handlers}
         welcomeMessage={welcomeMessage}
         theme={theme}
         showControlBar={false}
