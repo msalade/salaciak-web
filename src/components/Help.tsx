@@ -12,10 +12,12 @@ const Help = ({ locale = "en" }: { locale?: Locale }) => {
     <br />
     <strong>cat</strong> - {copy.help.cat} <br />
     <strong>curl</strong> - {copy.help.curl} <br />
-    <strong>pong</strong> - {copy.help.pong} <br />
     <strong>clear</strong> - {copy.help.clear} <br />
     <strong>theme</strong> - {copy.help.theme}<br />
     <strong>history</strong> - {copy.help.history}<br />
+    <strong>accessible</strong> - {copy.help.accessible}<br />
+    <strong>motion</strong> - {copy.help.motion}<br />
+    <strong>lang</strong> - {copy.help.lang}<br />
     {copy.help.share}<br />
     <Link href="/?command=projects">/?command=projects</Link><br />
     <Link href="/?command=cat%20experience.md">/?command=cat%20experience.md</Link><br />

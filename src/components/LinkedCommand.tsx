@@ -6,16 +6,21 @@ type LinkedCommandProps = {
   command: string | null;
   handlers: CommandHandlers;
   prompt: string;
+  consumeSubmitted?: (command: string) => boolean;
 };
 
-export default function LinkedCommand({ command, handlers, prompt }: LinkedCommandProps) {
+export default function LinkedCommand({ command, handlers, prompt, consumeSubmitted }: LinkedCommandProps) {
   const { setBufferedContent, appendCommandToHistory } = useContext(TerminalContext);
-  const initialized = useRef(false);
+  const previousCommand = useRef<string | null>(null);
 
   useEffect(() => {
     // React Strict Mode and terminal/theme updates must not replay the URL command.
-    if (initialized.current || !command) return;
-    initialized.current = true;
+    if (previousCommand.current === command) return;
+    previousCommand.current = command;
+    if (!command) return;
+    if (consumeSubmitted?.(command)) {
+      return;
+    }
     const output = runLinkedCommand(command, handlers);
     appendCommandToHistory(command);
     setBufferedContent(command.split(" ")[0] === "clear" ? "" : (
@@ -24,7 +29,7 @@ export default function LinkedCommand({ command, handlers, prompt }: LinkedComma
         {output}<br />
       </>
     ));
-  }, [command, handlers, prompt, setBufferedContent, appendCommandToHistory]);
+  }, [command, handlers, prompt, consumeSubmitted, setBufferedContent, appendCommandToHistory]);
 
   return null;
 }

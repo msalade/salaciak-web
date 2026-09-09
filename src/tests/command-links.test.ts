@@ -37,6 +37,10 @@ test("unknown commands, including inherited object keys, produce a readable erro
   }
 });
 
+test("pong is no longer an available command", () => {
+  assert.equal(runLinkedCommand("pong", commands(() => {})), "command not found: pong");
+});
+
 test("the built-in clear command does not produce an unknown-command error", () => {
   assert.equal(runLinkedCommand("clear", {}), null);
 });

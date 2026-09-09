@@ -17,7 +17,7 @@ import {
 
 const suggestions: CommandSuggestion[] = [
   { name: "projects", description: "explore projects" },
-  { name: "pong", description: "play Pong" },
+  { name: "ls", description: "list files" },
   { name: "search", description: "search the portfolio" },
   { name: "theme", description: "set the theme" },
 ];

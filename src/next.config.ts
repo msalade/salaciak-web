@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
       headers: [{ key: "Cache-Control", value: "no-cache, no-store, must-revalidate" }],
     },
   ],
+  rewrites: async () => (process.env.NODE_ENV === "production"
+    ? []
+    : [{ source: "/sw.js", destination: "/sw-dev.js" }]),
 };
 
 const withSerwist = withSerwistInit({

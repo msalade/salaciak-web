@@ -12,12 +12,12 @@ Search is available with `search [QUERY]`; it searches experience, skills, proje
 and the profile summary. Results include links back to terminal commands, for example
 `/?command=search%20kubernetes`.
 
-The terminal shows a clickable command menu with common examples. While typing a command,
-press Tab to complete it or a known file, theme, or recent search argument.
+The terminal starts as the only visible interface. Type `help` for commands, and press Tab
+to complete a command or a known file, theme, or recent search argument.
 
-Command history is saved locally and available through `history`. The display controls can
-switch between the interactive terminal and a semantic accessible view, reduce motion, and
-switch between English and Polish.
+Command history is saved locally and available through `history`. Type `accessible` to print
+the semantic portfolio view, `motion reduce` or `motion on` to change motion, and `lang en`
+or `lang pl` to switch language.
 
 Quality checks are grouped in `npm run ci`: lint, typecheck, tests, production build,
 Playwright end-to-end tests, and `npm audit --audit-level=high`. Install the browser once

@@ -7,7 +7,6 @@ import Tech from "./Tech";
 import Contact from "./Contact";
 import Social from "./Social";
 import Cv from "./Cv";
-import Pong from "./Pong";
 import Projects from "./Projects";
 import Search from "./Search";
 import History from "./History";
@@ -51,7 +50,6 @@ export const commands = (setTheme: (theme: ThemeType) => void, locale: Locale = 
   return {
   help: () => <Help locale={locale} />,
   ls: () => <Ls locale={locale} />,
-  pong: () => <Pong locale={locale} />,
   projects: () => <Projects locale={locale} />,
   search: (query: string) => <Search query={query} locale={locale} />,
   history: () => <History entries={history} locale={locale} />,

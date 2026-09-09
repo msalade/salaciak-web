@@ -3,11 +3,27 @@ import type { AppProps } from "next/app";
 import { Analytics } from "@vercel/analytics/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { getMessages } from "../i18n/messages";
 
 export default function App({ Component, pageProps }: AppProps) {
   const { locale } = useRouter();
   const copy = getMessages(locale);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production" || !("serviceWorker" in navigator)) return;
+
+    void navigator.serviceWorker
+      .getRegistrations()
+      .then(async (registrations) => {
+        const unregistered = await Promise.all(
+          registrations.map((registration) => registration.unregister()),
+        );
+        if (unregistered.some(Boolean)) window.location.reload();
+      })
+      .catch(() => undefined);
+  }, []);
+
   return (
     <>
       <Head>
@@ -20,21 +36,25 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="keywords" content={copy.metadata.keywords} />
         <title>{copy.metadata.title}</title>
         <meta name="description" content={copy.metadata.description} />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="manifest" href="/manifest.json" />
-        <link
-          href="/favicon-16x16.png"
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-        />
-        <link
-          href="/favicon-32x32.png"
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-        />
-        <link rel="apple-touch-icon" href="/apple-icon.png"></link>
+        {process.env.NODE_ENV === "production" && (
+          <>
+            <link rel="icon" href="/favicon.ico" />
+            <link rel="manifest" href="/manifest.json" />
+            <link
+              href="/favicon-16x16.png"
+              rel="icon"
+              type="image/png"
+              sizes="16x16"
+            />
+            <link
+              href="/favicon-32x32.png"
+              rel="icon"
+              type="image/png"
+              sizes="32x32"
+            />
+            <link rel="apple-touch-icon" href="/apple-icon.png" />
+          </>
+        )}
         <meta name="theme-color" content="#000000" />
       </Head>
       <Component {...pageProps} />

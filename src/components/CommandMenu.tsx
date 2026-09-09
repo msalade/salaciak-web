@@ -17,7 +17,6 @@ export default function CommandMenu({ locale = "en", history = [] }: CommandMenu
     { name: "cat experience.md", description: copy.help.cat },
     { name: "cat tech.md", description: copy.help.cat },
     { name: "curl cv.pdf", description: copy.help.curl },
-    { name: "pong", description: copy.help.pong },
     { name: "theme dark", description: copy.help.theme },
     { name: "history", description: copy.help.history },
     ...recentSearches.map((query) => ({ name: `search ${query}`, description: copy.help.search })),
