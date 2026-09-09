@@ -58,3 +58,9 @@ test("experience links use the same content as the existing cat command", () => 
   assert.match(output, /Senior Software Engineer/);
   assert.match(output, /Apptio/);
 });
+
+test("history renders persisted commands in order", () => {
+  const output = renderToStaticMarkup(runLinkedCommand("history", commands(() => {}, "en", ["projects", "search react"])));
+  assert.match(output, /1 projects/);
+  assert.match(output, /2 search react/);
+});

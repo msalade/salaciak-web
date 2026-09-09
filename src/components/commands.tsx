@@ -10,6 +10,7 @@ import Cv from "./Cv";
 import Pong from "./Pong";
 import Projects from "./Projects";
 import Search from "./Search";
+import History from "./History";
 import type { CommandHandlers } from "../terminal/commandLinks";
 import { ThemeType } from "./themes";
 import { getMessages, type Locale } from "../i18n/messages";
@@ -45,7 +46,7 @@ const expData = [
   },
 ];
 
-export const commands = (setTheme: (theme: ThemeType) => void, locale: Locale = "en") => {
+export const commands = (setTheme: (theme: ThemeType) => void, locale: Locale = "en", history: readonly string[] = []) => {
   const copy = getMessages(locale);
   return {
   help: () => <Help locale={locale} />,
@@ -53,6 +54,7 @@ export const commands = (setTheme: (theme: ThemeType) => void, locale: Locale = 
   pong: () => <Pong locale={locale} />,
   projects: () => <Projects locale={locale} />,
   search: (query: string) => <Search query={query} locale={locale} />,
+  history: () => <History entries={history} locale={locale} />,
   theme: (theme: string) => {
     switch (theme) {
       case "light":

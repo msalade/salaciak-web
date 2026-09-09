@@ -2,10 +2,10 @@ export const supportedLocales = ["en", "pl"] as const;
 export type Locale = (typeof supportedLocales)[number];
 
 export type Messages = {
-  terminal: { welcome: string; prompt: string; commandNotFound: (command: string) => string; suggestionsTitle: string; suggestionsHint: string };
+  terminal: { welcome: string; prompt: string; commandNotFound: (command: string) => string; suggestionsTitle: string; suggestionsHint: string; showAccessibleView: string; showTerminal: string; reducedMotionOn: string; reducedMotionOff: string; historyEmpty: string; switchLanguage: string; displayOptions: string };
   help: {
     available: string; projects: string; search: string; ls: string; cat: string;
-    curl: string; pong: string; clear: string; theme: string; help: string; share: string;
+    curl: string; pong: string; clear: string; theme: string; help: string; history: string; share: string;
   };
   ls: { about: string; image: string; experience: string; tech: string; contact: string; social: string; cv: string };
   projects: { description: string; source: string };
@@ -17,11 +17,12 @@ export type Messages = {
   metadata: { title: string; description: string; keywords: string };
   pong: { start: string; paused: string; resume: string; left: string; right: string; space: (action: string) => string; up: string; down: string };
   errors: { fileDownload: (file: string) => string; fileMissing: (file: string) => string; theme: (theme: string) => string };
+  accessibility: { title: string; intro: string; experience: string; skills: string; projects: string; contact: string };
 };
 
 const english: Messages = {
-  terminal: { welcome: "Type 'help' for all available commands.", prompt: "msalaciak >", commandNotFound: (command) => `command not found: ${command}`, suggestionsTitle: "Command menu", suggestionsHint: "Click a command or press Tab to complete it." },
-  help: { available: "Available commands:", projects: "explore portfolio projects", search: "search experience, skills, projects, and about information. Example: search kubernetes", ls: "list directory contents", cat: "concatenate files and print on the standard output. Example: cat [FILE]", curl: "download file. Example: curl [FILE]", pong: "play Pong game", clear: "clear console content", theme: "set theme", help: "show available commands", share: "Share a command by adding it to the URL, for example:" },
+  terminal: { welcome: "Type 'help' for all available commands.", prompt: "msalaciak >", commandNotFound: (command) => `command not found: ${command}`, suggestionsTitle: "Command menu", suggestionsHint: "Click a command or press Tab to complete it.", showAccessibleView: "Open accessible portfolio view", showTerminal: "Return to terminal view", reducedMotionOn: "Enable motion", reducedMotionOff: "Reduce motion", historyEmpty: "No commands have been run yet.", switchLanguage: "Switch language", displayOptions: "Portfolio display options" },
+  help: { available: "Available commands:", projects: "explore portfolio projects", search: "search experience, skills, projects, and about information. Example: search kubernetes", ls: "list directory contents", cat: "concatenate files and print on the standard output. Example: cat [FILE]", curl: "download file. Example: curl [FILE]", pong: "play Pong game", clear: "clear console content", theme: "set theme", help: "show available commands", history: "show commands from this session and previous visits", share: "Share a command by adding it to the URL, for example:" },
   ls: { about: "about_me.md", image: "me.jpeg", experience: "experience.md", tech: "tech.md", contact: "contact.md", social: "social.md", cv: "cv.pdf" },
   projects: { description: "Personal portfolio with an interactive terminal, built with Next.js, React, and TypeScript. Includes experience, skills, a protected CV download, and Pong.", source: "View source on GitHub" },
   search: { usage: "Usage: search [QUERY]", noResults: (query) => `No results for "${query}".`, heading: (query) => `Search results for "${query}":`, open: "Open", category: { Experience: "Experience", Skills: "Skills", Projects: "Projects", About: "About" } },
@@ -32,11 +33,12 @@ const english: Messages = {
   metadata: { title: "Michał Sałaciak", description: "Michał Sałaciak — Senior Software Engineer portfolio", keywords: "Michał Sałaciak, Senior Software Engineer, TypeScript, React, Kubernetes" },
   pong: { start: "Press SPACE to start", paused: "PAUSED", resume: "Press SPACE to resume", left: "Left Player: W (up) / S (down)", right: "Right Player: ↑ (up) / ↓ (down)", space: (action) => `Space: ${action}`, up: "up", down: "down" },
   errors: { fileDownload: (file) => `cat: fail to download ${file}, supported extensions: .pdf`, fileMissing: (file) => `cat: ${file}: No such file or directory`, theme: (theme) => `theme ${theme}: No such theme. Available themes: light, dark, total-dark, material-light, material-dark, material-ocean, matrix and dracula` },
+  accessibility: { title: "Accessible portfolio", intro: "A semantic view of the portfolio content, designed for screen readers and keyboard navigation.", experience: "Experience", skills: "Skills", projects: "Projects", contact: "Contact" },
 };
 
 const polish: Messages = {
-  terminal: { welcome: "Wpisz 'help', aby zobaczyć dostępne polecenia.", prompt: "msalaciak >", commandNotFound: (command) => `nie znaleziono polecenia: ${command}`, suggestionsTitle: "Menu poleceń", suggestionsHint: "Kliknij polecenie lub naciśnij Tab, aby je uzupełnić." },
-  help: { available: "Dostępne polecenia:", projects: "pokaż projekty w portfolio", search: "wyszukaj doświadczenie, technologie, projekty i informacje o mnie. Przykład: search kubernetes", ls: "wyświetl zawartość katalogu", cat: "wyświetl zawartość pliku. Przykład: cat [PLIK]", curl: "pobierz plik. Przykład: curl [PLIK]", pong: "zagraj w Pong", clear: "wyczyść konsolę", theme: "ustaw motyw", help: "pokaż dostępne polecenia", share: "Udostępnij polecenie, dodając je do adresu URL, na przykład:" },
+  terminal: { welcome: "Wpisz 'help', aby zobaczyć dostępne polecenia.", prompt: "msalaciak >", commandNotFound: (command) => `nie znaleziono polecenia: ${command}`, suggestionsTitle: "Menu poleceń", suggestionsHint: "Kliknij polecenie lub naciśnij Tab, aby je uzupełnić.", showAccessibleView: "Otwórz dostępny widok portfolio", showTerminal: "Wróć do widoku terminala", reducedMotionOn: "Włącz animacje", reducedMotionOff: "Ogranicz animacje", historyEmpty: "Nie uruchomiono jeszcze żadnych poleceń.", switchLanguage: "Zmień język", displayOptions: "Opcje wyświetlania portfolio" },
+  help: { available: "Dostępne polecenia:", projects: "pokaż projekty w portfolio", search: "wyszukaj doświadczenie, technologie, projekty i informacje o mnie. Przykład: search kubernetes", ls: "wyświetl zawartość katalogu", cat: "wyświetl zawartość pliku. Przykład: cat [PLIK]", curl: "pobierz plik. Przykład: curl [PLIK]", pong: "zagraj w Pong", clear: "wyczyść konsolę", theme: "ustaw motyw", help: "pokaż dostępne polecenia", history: "pokaż polecenia z tej i poprzednich wizyt", share: "Udostępnij polecenie, dodając je do adresu URL, na przykład:" },
   ls: english.ls,
   projects: { description: "Osobiste portfolio z interaktywnym terminalem, stworzone w Next.js, React i TypeScript. Zawiera doświadczenie, umiejętności, chroniony plik CV i grę Pong.", source: "Zobacz kod na GitHub" },
   search: { usage: "Użycie: search [ZAPYTANIE]", noResults: (query) => `Brak wyników dla „${query}”.`, heading: (query) => `Wyniki wyszukiwania dla „${query}”:`, open: "Otwórz", category: { Experience: "Doświadczenie", Skills: "Umiejętności", Projects: "Projekty", About: "O mnie" } },
@@ -47,6 +49,7 @@ const polish: Messages = {
   metadata: { title: "Michał Sałaciak", description: "Michał Sałaciak — portfolio Senior Software Engineera", keywords: "Michał Sałaciak, Senior Software Engineer, TypeScript, React, Kubernetes" },
   pong: { start: "Naciśnij SPACJĘ, aby rozpocząć", paused: "PAUZA", resume: "Naciśnij SPACJĘ, aby wznowić", left: "Lewy gracz: W (góra) / S (dół)", right: "Prawy gracz: ↑ (góra) / ↓ (dół)", space: (action) => `Spacja: ${action}`, up: "góra", down: "dół" },
   errors: { fileDownload: (file) => `cat: nie można pobrać ${file}, obsługiwane rozszerzenie: .pdf`, fileMissing: (file) => `cat: ${file}: Nie ma takiego pliku`, theme: (theme) => `theme ${theme}: Nie ma takiego motywu. Dostępne: light, dark, total-dark, material-light, material-dark, material-ocean, matrix i dracula` },
+  accessibility: { title: "Dostępne portfolio", intro: "Semantyczny widok treści portfolio przygotowany z myślą o czytnikach ekranu i nawigacji klawiaturą.", experience: "Doświadczenie", skills: "Umiejętności", projects: "Projekty", contact: "Kontakt" },
 };
 
 export function resolveLocale(locale?: string): Locale {

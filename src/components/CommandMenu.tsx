@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { getMessages, type Locale } from "../i18n/messages";
-import { commandHref, getCommandSuggestions } from "../terminal/autocomplete";
+import { commandHref, getCommandSuggestions, getRecentSearches } from "../terminal/autocomplete";
 import styles from "./CommandMenu.module.css";
 
-type CommandMenuProps = { locale?: Locale };
+type CommandMenuProps = { locale?: Locale; history?: readonly string[] };
 
-export default function CommandMenu({ locale = "en" }: CommandMenuProps) {
+export default function CommandMenu({ locale = "en", history = [] }: CommandMenuProps) {
   const copy = getMessages(locale);
+  const recentSearches = getRecentSearches(history);
   const suggestions = getCommandSuggestions("", [
     { name: "help", description: copy.help.help },
     { name: "projects", description: copy.help.projects },
@@ -18,6 +19,8 @@ export default function CommandMenu({ locale = "en" }: CommandMenuProps) {
     { name: "curl cv.pdf", description: copy.help.curl },
     { name: "pong", description: copy.help.pong },
     { name: "theme dark", description: copy.help.theme },
+    { name: "history", description: copy.help.history },
+    ...recentSearches.map((query) => ({ name: `search ${query}`, description: copy.help.search })),
   ]);
 
   return (

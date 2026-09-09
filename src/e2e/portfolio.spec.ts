@@ -20,6 +20,46 @@ test("shows clickable command suggestions", async ({ page }) => {
   );
 });
 
+test("completes known command arguments with Tab", async ({ page }) => {
+  await page.goto("/");
+  const editor = page.locator("#terminalEditor");
+  await editor.click();
+  await page.keyboard.type("cat ex");
+  await page.keyboard.press("Tab");
+  await expect(editor.locator('[class*="lineText"]').last()).toContainText("cat experience.md");
+});
+
+test("persists command history between terminal navigations", async ({ page }) => {
+  await page.goto("/?command=projects");
+  await expect(page.locator("#terminalEditor")).toContainText("Personal portfolio");
+  await page.goto("/?command=history");
+  await expect(page.locator("#terminalEditor")).toContainText(/projects/);
+});
+
+test("switches the interface language from the display controls", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("link", { name: "Switch language" }).click();
+  await expect(page.locator("html")).toHaveAttribute("lang", "pl");
+  await expect(page.getByRole("link", { name: "Zmień język" })).toBeVisible();
+});
+
+test("provides a semantic portfolio view and reduced-motion toggle", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Open accessible portfolio view" }).click();
+  await expect(page.getByRole("heading", { name: "Accessible portfolio" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Experience" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "projects" })).toHaveAttribute(
+    "href",
+    "/?command=projects",
+  );
+
+  await page.getByRole("button", { name: "Reduce motion" }).click();
+  await expect(page.getByRole("button", { name: "Enable motion" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+});
+
 test("uses the requested locale for command output", async ({ page }) => {
   await page.goto("/pl/?command=help");
   await expect(page.getByText("Dostępne polecenia:")).toBeVisible();

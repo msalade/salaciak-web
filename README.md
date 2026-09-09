@@ -13,7 +13,11 @@ and the profile summary. Results include links back to terminal commands, for ex
 `/?command=search%20kubernetes`.
 
 The terminal shows a clickable command menu with common examples. While typing a command,
-press Tab to complete it; arguments are left untouched.
+press Tab to complete it or a known file, theme, or recent search argument.
+
+Command history is saved locally and available through `history`. The display controls can
+switch between the interactive terminal and a semantic accessible view, reduce motion, and
+switch between English and Polish.
 
 Quality checks are grouped in `npm run ci`: lint, typecheck, tests, production build,
 Playwright end-to-end tests, and `npm audit --audit-level=high`. Install the browser once
