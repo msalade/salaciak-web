@@ -18,16 +18,25 @@ const mockServer = setupServer(
 );
 
 mockServer.listen({ onUnhandledRequest: "bypass" });
-const app = next({ dev: true, hostname: "127.0.0.1", port });
-await app.prepare();
-const handle = app.getRequestHandler();
-const server = createServer((request, response) => handle(request, response));
-server.listen(port, "127.0.0.1");
 
-const shutdown = async () => {
-  mockServer.close();
-  await app.close();
-  server.close();
+const main = async () => {
+  const app = next({ dev: true, hostname: "127.0.0.1", port });
+  await app.prepare();
+  const handle = app.getRequestHandler();
+  const server = createServer((request, response) => handle(request, response));
+  server.listen(port, "127.0.0.1");
+
+  const shutdown = async () => {
+    mockServer.close();
+    await app.close();
+    server.close();
+  };
+  process.once("SIGINT", shutdown);
+  process.once("SIGTERM", shutdown);
 };
-process.once("SIGINT", shutdown);
-process.once("SIGTERM", shutdown);
+
+void main().catch((error: unknown) => {
+  mockServer.close();
+  console.error(error);
+  process.exitCode = 1;
+});

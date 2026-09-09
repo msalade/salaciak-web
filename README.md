@@ -29,7 +29,7 @@ if your checkout predates the Husky dependency.
 
 The application, Next.js configuration, service worker, and sitemap generator use strict TypeScript.
 
-Use Node.js 22.14 or newer. From `src`, run `npm install`, then `npm run dev`.
+Use Node.js 24 LTS or newer. From `src`, run `npm install`, then `npm run dev`.
 For a production build, run `npm run build` followed by `npm start`.
 
 Create `src/.env.local` with these settings:
