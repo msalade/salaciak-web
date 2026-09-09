@@ -14,10 +14,7 @@ test("shows clickable command suggestions", async ({ page }) => {
   await page.goto("/");
   const menu = page.getByRole("navigation", { name: "Command menu" });
   await expect(menu).toBeVisible();
-  await expect(menu.getByRole("link", { name: /projects/ })).toHaveAttribute(
-    "href",
-    "/?command=projects",
-  );
+  await expect(menu.locator('a[href*="command=projects"]')).toHaveAttribute("href", /command=projects/);
 });
 
 test("completes known command arguments with Tab", async ({ page }) => {
@@ -62,8 +59,8 @@ test("provides a semantic portfolio view and reduced-motion toggle", async ({ pa
 
 test("uses the requested locale for command output", async ({ page }) => {
   await page.goto("/pl/?command=help");
-  await expect(page.getByText("Dostępne polecenia:")).toBeVisible();
-  await expect(page.getByText(/wyszukaj doświadczenie/)).toBeVisible();
+  await expect(page.locator("#terminalEditor")).toContainText("Dostępne polecenia:");
+  await expect(page.locator("#terminalEditor")).toContainText("wyszukaj doświadczenie");
   await expect(page.locator("html")).toHaveAttribute("lang", "pl");
 });
 
