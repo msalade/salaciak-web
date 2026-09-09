@@ -1,14 +1,16 @@
 import { memo, useState } from "react";
 import { useEmailContext } from "../context/EmailContext";
 import Captcha from "./Captcha";
+import { getMessages, type Locale } from "../i18n/messages";
 
-const Contact = () => {
+const Contact = ({ locale = "en" }: { locale?: Locale }) => {
+  const copy = getMessages(locale);
   const [message, setMessage] = useState("");
   const { setEmail, email } = useEmailContext();
 
   const getEmail = async (token: string | null) => {
     if (!token) {
-      setMessage("Could not extract recaptcha token");
+      setMessage(copy.captcha.tokenError);
       return;
     }
     setMessage("");
@@ -19,14 +21,14 @@ const Contact = () => {
           "email" in result && typeof result.email === "string") {
         setEmail(result.email);
       } else {
-        setMessage("Could not fetch email. Please try again.");
+        setMessage(copy.contact.error);
       }
     } catch {
-      setMessage("Could not fetch email. Please try again.");
+      setMessage(copy.contact.error);
     }
   };
 
-  return <><Captcha onChange={getEmail} />{email || message}</>;
+  return <><Captcha onChange={getEmail} locale={locale} />{email || message}</>;
 };
 
 export default memo(Contact);

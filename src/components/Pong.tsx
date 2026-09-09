@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
+import { getMessages, type Locale } from "../i18n/messages";
 
 interface Ball {
   x: number;
@@ -22,7 +23,8 @@ const PADDLE_SPEED = 5;
 const BALL_SIZE = 10;
 const BALL_SPEED = 4;
 
-const Pong = () => {
+const Pong = ({ locale = "en" }: { locale?: Locale }) => {
+  const copy = getMessages(locale);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number | null>(null);
   const [leftScore, setLeftScore] = useState(0);
@@ -211,16 +213,16 @@ const Pong = () => {
     // Draw instructions
     if (!gameStarted) {
       ctx.font = "16px monospace";
-      ctx.fillText("Press SPACE to start", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+      ctx.fillText(copy.pong.start, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       ctx.font = "12px monospace";
       ctx.fillText("Left: W/S | Right: ↑/↓", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
     } else if (gamePaused) {
       ctx.font = "24px monospace";
-      ctx.fillText("PAUSED", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+      ctx.fillText(copy.pong.paused, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
       ctx.font = "12px monospace";
-      ctx.fillText("Press SPACE to resume", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
+      ctx.fillText(copy.pong.resume, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 30);
     }
-  }, [leftScore, rightScore, gameStarted, gamePaused]);
+  }, [leftScore, rightScore, gameStarted, gamePaused, copy.pong.start, copy.pong.paused, copy.pong.resume]);
 
   useEffect(() => {
     function gameLoop() {
@@ -254,9 +256,9 @@ const Pong = () => {
         tabIndex={0}
       />
       <div style={{ color: "#ffffff", fontFamily: "monospace", fontSize: "12px", textAlign: "center" }}>
-        <div>Left Player: W (up) / S (down)</div>
-        <div>Right Player: ↑ (up) / ↓ (down)</div>
-        <div>Space: {gameStarted ? (gamePaused ? "Resume" : "Pause") : "Start"}</div>
+        <div>{copy.pong.left}</div>
+        <div>{copy.pong.right}</div>
+        <div>{copy.pong.space(gameStarted ? (gamePaused ? (locale === "pl" ? "Wznów" : "Resume") : (locale === "pl" ? "Pauza" : "Pause")) : (locale === "pl" ? "Start" : "Start"))}</div>
       </div>
     </div>
   );

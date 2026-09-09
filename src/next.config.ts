@@ -3,7 +3,7 @@ import withSerwistInit from "@serwist/next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  i18n: { locales: ["en"], defaultLocale: "en" },
+  i18n: { locales: ["en", "pl"], defaultLocale: "en" },
   headers: async () => [
     {
       source: "/sw.js",

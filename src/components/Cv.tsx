@@ -1,14 +1,16 @@
 import { memo, useState } from "react";
 import Captcha from "./Captcha";
+import { getMessages, type Locale } from "../i18n/messages";
 
-const Cv = () => {
+const Cv = ({ locale = "en" }: { locale?: Locale }) => {
+  const copy = getMessages(locale);
   const [message, setMessage] = useState("");
   const [token, setToken] = useState("");
 
   const getEmail = (token: string | null) => {
     if (token === null) {
       setToken("");
-      setMessage("Could not extract recaptcha token");
+      setMessage(copy.captcha.tokenError);
     } else {
       setMessage("");
       setToken(token);
@@ -17,11 +19,11 @@ const Cv = () => {
 
   return (
     <>
-      <Captcha onChange={getEmail} />
+      <Captcha onChange={getEmail} locale={locale} />
       {message ||
         (token && (
           <a href={`/api/cv?token=${encodeURIComponent(token)}`} target="_blank" rel="noopener noreferrer">
-            Download CV
+            {copy.cv.download}
           </a>
         ))}
     </>

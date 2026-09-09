@@ -8,6 +8,17 @@ commands or use `clear` normally. Unknown commands show the usual error message.
 Empty, repeated, multiline, or overlong (more than 256 characters) command parameters
 are ignored. Ordinary visits keep the existing welcome screen.
 
+Search is available with `search [QUERY]`; it searches experience, skills, projects,
+and the profile summary. Results include links back to terminal commands, for example
+`/?command=search%20kubernetes`.
+
+Quality checks are grouped in `npm run ci`: lint, typecheck, tests, production build,
+and `npm audit --audit-level=high`. GitHub Actions runs this command for pushes and
+pull requests. Husky runs the same checks before every local commit; run commands from
+the `src` directory.
+After cloning, run `npm install` from `src` once to install Husky and refresh the lockfile
+if your checkout predates the Husky dependency.
+
 ### My [personal website](https://michalsalaciak.pl/) in form of terminal.
 
 ![image](/img/my-web.png)

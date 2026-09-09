@@ -9,8 +9,10 @@ import Social from "./Social";
 import Cv from "./Cv";
 import Pong from "./Pong";
 import Projects from "./Projects";
+import Search from "./Search";
 import type { CommandHandlers } from "../terminal/commandLinks";
 import { ThemeType } from "./themes";
+import { getMessages, type Locale } from "../i18n/messages";
 
 const expData = [
   {
@@ -43,11 +45,14 @@ const expData = [
   },
 ];
 
-export const commands = (setTheme: (theme: ThemeType) => void) => ({
-  help: () => <Help />,
-  ls: () => <Ls />,
-  pong: () => <Pong />,
-  projects: () => <Projects />,
+export const commands = (setTheme: (theme: ThemeType) => void, locale: Locale = "en") => {
+  const copy = getMessages(locale);
+  return {
+  help: () => <Help locale={locale} />,
+  ls: () => <Ls locale={locale} />,
+  pong: () => <Pong locale={locale} />,
+  projects: () => <Projects locale={locale} />,
+  search: (query: string) => <Search query={query} locale={locale} />,
   theme: (theme: string) => {
     switch (theme) {
       case "light":
@@ -59,14 +64,12 @@ export const commands = (setTheme: (theme: ThemeType) => void) => ({
       case "matrix":
       case "dracula": {
         setTheme(theme);
-        return <span>Theme set!</span>;
+        return <span>{locale === "pl" ? "Motyw ustawiony!" : "Theme set!"}</span>;
       }
       default: {
         return (
           <span>
-            theme {theme}: No such theme. Available themes: light, dark,
-            total-dark, material-light, material-dark, material-ocean, matrix
-            and dracula
+            {copy.errors.theme(theme)}
           </span>
         );
       }
@@ -75,11 +78,11 @@ export const commands = (setTheme: (theme: ThemeType) => void) => ({
   curl: (file: string) => {
     switch (file) {
       case "cv.pdf": {
-        return <Cv />;
+        return <Cv locale={locale} />;
       }
       default: {
         return (
-          <span>cat: fail to download {file}, supported extensions: .pdf</span>
+          <span>{copy.errors.fileDownload(file)}</span>
         );
       }
     }
@@ -87,10 +90,10 @@ export const commands = (setTheme: (theme: ThemeType) => void) => ({
   cat: (file: string) => {
     switch (file) {
       case "about_me.md": {
-        return <AboutMe />;
+        return <AboutMe locale={locale} />;
       }
       case "me.jpeg": {
-        return <Image src="/me.jpeg" height={167} width={125} alt="me" />;
+        return <Image src="/me.jpeg" height={167} width={125} alt={copy.about.imageAlt} />;
       }
       case "experience.md": {
         return <Experience expData={expData} />;
@@ -99,14 +102,15 @@ export const commands = (setTheme: (theme: ThemeType) => void) => ({
         return <Tech />;
       }
       case "contact.md": {
-        return <Contact />;
+        return <Contact locale={locale} />;
       }
       case "social.md": {
         return <Social />;
       }
       default: {
-        return <span>cat: {file}: No such file or directory</span>;
+        return <span>{copy.errors.fileMissing(file)}</span>;
       }
     }
   },
-} satisfies CommandHandlers);
+} satisfies CommandHandlers;
+};

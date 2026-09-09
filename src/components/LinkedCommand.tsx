@@ -5,9 +5,10 @@ import { runLinkedCommand, type CommandHandlers } from "../terminal/commandLinks
 type LinkedCommandProps = {
   command: string | null;
   handlers: CommandHandlers;
+  prompt: string;
 };
 
-export default function LinkedCommand({ command, handlers }: LinkedCommandProps) {
+export default function LinkedCommand({ command, handlers, prompt }: LinkedCommandProps) {
   const { setBufferedContent, appendCommandToHistory } = useContext(TerminalContext);
   const initialized = useRef(false);
 
@@ -19,11 +20,11 @@ export default function LinkedCommand({ command, handlers }: LinkedCommandProps)
     appendCommandToHistory(command);
     setBufferedContent(command.split(" ")[0] === "clear" ? "" : (
       <>
-        <span>msalaciak &gt; {command}</span><br />
+        <span>{prompt} {command}</span><br />
         {output}<br />
       </>
     ));
-  }, [command, handlers, setBufferedContent, appendCommandToHistory]);
+  }, [command, handlers, prompt, setBufferedContent, appendCommandToHistory]);
 
   return null;
 }

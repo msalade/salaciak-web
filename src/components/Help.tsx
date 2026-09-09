@@ -1,22 +1,24 @@
 import Link from "next/link";
+import { getMessages, type Locale } from "../i18n/messages";
 
-const Help = () => (
+const Help = ({ locale = "en" }: { locale?: Locale }) => {
+  const copy = getMessages(locale);
+  return (
   <span>
-    Available commands: <br />
-    <strong>projects</strong> - explore portfolio projects<br />
-    <strong>ls</strong> - list directory contents
+    {copy.help.available} <br />
+    <strong>projects</strong> - {copy.help.projects}<br />
+    <strong>search</strong> - {copy.help.search}<br />
+    <strong>ls</strong> - {copy.help.ls}
     <br />
-    <strong>cat</strong> - concatenate files and print on the standard output.
-    Example: cat [FILE] <br />
-    <strong>curl</strong> - download file.
-    Example: curl [FILE] <br />
-    <strong>pong</strong> - play Pong game <br />
-    <strong>clear</strong> - clear console content <br />
-    <strong>theme</strong> - set theme<br />
-    Share a command by adding it to the URL, for example:<br />
+    <strong>cat</strong> - {copy.help.cat} <br />
+    <strong>curl</strong> - {copy.help.curl} <br />
+    <strong>pong</strong> - {copy.help.pong} <br />
+    <strong>clear</strong> - {copy.help.clear} <br />
+    <strong>theme</strong> - {copy.help.theme}<br />
+    {copy.help.share}<br />
     <Link href="/?command=projects">/?command=projects</Link><br />
     <Link href="/?command=cat%20experience.md">/?command=cat%20experience.md</Link><br />
-  </span>
-);
+  </span>);
+};
 
 export default Help;

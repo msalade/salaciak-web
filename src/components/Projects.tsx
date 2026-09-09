@@ -1,13 +1,16 @@
-const Projects = () => (
+import { getMessages, type Locale } from "../i18n/messages";
+
+const Projects = ({ locale = "en" }: { locale?: Locale }) => {
+  const copy = getMessages(locale);
+  return (
   <span>
     <strong>salaciak-web</strong><br />
-    Personal portfolio with an interactive terminal, built with Next.js, React,
-    and TypeScript. Includes experience, skills, a protected CV download, and Pong.
+    {copy.projects.description}
     <br />
     <a href="https://github.com/msalade/salaciak-web" target="_blank" rel="noopener noreferrer">
-      View source on GitHub
+      {copy.projects.source}
     </a><br />
-  </span>
-);
+  </span>);
+};
 
 export default Projects;

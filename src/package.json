@@ -5,11 +5,13 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
-    "postbuild": "tsx scripts/sitemap.ts",
+    "postbuild": "node --import tsx scripts/sitemap.ts",
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test tests/*.test.ts"
+    "test": "node --import tsx --test tests/*.test.ts",
+    "ci": "npm run lint && npm run typecheck && npm test && npm run build && npm audit --audit-level=high",
+    "prepare": "cd .. && husky src/.husky"
   },
   "dependencies": {
     "@serwist/next": "9.5.12",
@@ -30,6 +32,7 @@
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.4",
     "jiti": "^2.6.1",
+    "husky": "^9.1.7",
     "serwist": "9.5.12",
     "tsx": "4.23.13",
     "typescript": "6.0.3"

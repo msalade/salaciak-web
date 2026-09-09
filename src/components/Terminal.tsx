@@ -6,20 +6,17 @@ import { useMemo } from "react";
 import { useRouter } from "next/router";
 import { parseCommandLink } from "../terminal/commandLinks";
 import LinkedCommand from "./LinkedCommand";
-
-const welcomeMessage = (
-  <span>
-    Type &apos;help&apos; for all available commands. <br />
-  </span>
-);
+import { getMessages, resolveLocale } from "../i18n/messages";
 
 const Terminal = () => {
   const router = useRouter();
+  const locale = resolveLocale(router.locale);
+  const copy = getMessages(locale);
   const [theme, setTheme] = useLocalStorage<ThemeType>(
     "salaciak-web-theme",
     "dracula"
   );
-  const handlers = useMemo(() => commands(setTheme), [setTheme]);
+  const handlers = useMemo(() => commands(setTheme, locale), [setTheme, locale]);
   const linkedCommand = parseCommandLink(router.query.command);
 
   // Wait for the client router to decode the query before mounting the terminal.
@@ -27,15 +24,15 @@ const Terminal = () => {
 
   return (
     <TerminalContextProvider key={linkedCommand ?? ""}>
-      <LinkedCommand command={linkedCommand} handlers={handlers} />
+      <LinkedCommand command={linkedCommand} handlers={handlers} prompt={copy.terminal.prompt} />
       <ReactTerminal
         commands={handlers}
-        welcomeMessage={welcomeMessage}
+        welcomeMessage={<span>{copy.terminal.welcome}<br /></span>}
         theme={theme}
         showControlBar={false}
         showControlButtons={false}
-        prompt="msalaciak >"
-        errorMessage={(command: string) => `command not found: ${command}`}
+        prompt={copy.terminal.prompt}
+        errorMessage={copy.terminal.commandNotFound}
         themes={themes}
       />
     </TerminalContextProvider>

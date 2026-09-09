@@ -1,20 +1,24 @@
-const Ls = () => (
+import { getMessages, type Locale } from "../i18n/messages";
+
+const Ls = ({ locale = "en" }: { locale?: Locale }) => {
+  const copy = getMessages(locale);
+  return (
   <span>
     .<br />
-    ├── about_me.md
+    ├── {copy.ls.about}
     <br />
-    ├── me.jpeg
+    ├── {copy.ls.image}
     <br />
-    ├── experience.md
+    ├── {copy.ls.experience}
     <br />
-    ├── tech.md
+    ├── {copy.ls.tech}
     <br />
-    ├── contact.md
+    ├── {copy.ls.contact}
     <br />
-    ├── social.md
+    ├── {copy.ls.social}
     <br />
-    └── cv.pdf
-  </span>
-);
+    └── {copy.ls.cv}
+  </span>);
+};
 
 export default Ls;
