@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {
   completeCommand,
   completeCommandLine,
+  cycleCompletion,
   commandHref,
   getCompletionAliases,
   getArgumentSuggestions,
@@ -73,6 +74,42 @@ test("builds command aliases that enable Tab completion for arguments", () => {
 
 test("completes an argument without changing the command", () => {
   assert.equal(completeCommandLine("cat ex", { commands: suggestions, arguments: argumentCatalog }), "cat experience.md");
+});
+
+test("cycles through command candidates with repeated Tab completion", () => {
+  const catalog = {
+    commands: [
+      { name: "cat", description: "print a file" },
+      ...suggestions,
+      { name: "clear", description: "clear output" },
+      { name: "curl", description: "download a file" },
+    ],
+    arguments: argumentCatalog,
+  };
+  const first = cycleCompletion("c", catalog);
+  const second = cycleCompletion(first, catalog, "c");
+  const third = cycleCompletion(second, catalog, "c");
+  assert.equal(first, "cat");
+  assert.equal(second, "clear");
+  assert.equal(third, "curl");
+});
+
+test("cycles through argument candidates and wraps around", () => {
+  const catalog = { commands: suggestions, arguments: { cat: ["about.md", "contact.md"] } };
+  const first = cycleCompletion("cat ", catalog);
+  const second = cycleCompletion(first, catalog, "cat ");
+  const wrapped = cycleCompletion(second, catalog, "cat ");
+  assert.equal(first, "cat about.md");
+  assert.equal(second, "cat contact.md");
+  assert.equal(wrapped, "cat about.md");
+});
+
+test("expands a partial argument to all command options on the next Tab", () => {
+  const catalog = { commands: suggestions, arguments: argumentCatalog };
+  const first = cycleCompletion("cat ex", catalog);
+  const second = cycleCompletion(first, catalog, "cat ");
+  assert.equal(first, "cat experience.md");
+  assert.equal(second, "cat tech.md");
 });
 
 test("extracts recent searches for search suggestions", () => {

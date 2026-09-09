@@ -63,6 +63,29 @@ export function completeCommandLine(input: string, catalog: CompletionCatalog): 
   return `${match[1]}${match[2]}${match[3]}${argument}`;
 }
 
+/** Returns the matching command line candidates in their display order. */
+export function getCompletionCandidates(input: string, catalog: CompletionCatalog): string[] {
+  if (!/\s/.test(input.trimStart())) {
+    return getCommandSuggestions(input, catalog.commands).map(({ name }) => {
+      const leadingWhitespace = input.slice(0, input.length - input.trimStart().length);
+      return `${leadingWhitespace}${name}`;
+    });
+  }
+
+  const match = input.match(/^(\s*)(\S+)(\s+)(.*)$/s);
+  if (!match) return [];
+  return getArgumentSuggestions(input, catalog.arguments)
+    .map((argument) => `${match[1]}${match[2]}${match[3]}${argument}`);
+}
+
+/** Advances to the next matching candidate, wrapping around at the end. */
+export function cycleCompletion(input: string, catalog: CompletionCatalog, anchor = input): string {
+  const candidates = getCompletionCandidates(anchor, catalog);
+  if (candidates.length === 0) return input;
+  const current = candidates.indexOf(input);
+  return candidates[(current + 1) % candidates.length] ?? input;
+}
+
 export function getCompletionAliases(
   argumentCatalog: Readonly<Record<string, readonly string[]>>,
 ): string[] {

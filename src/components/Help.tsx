@@ -17,6 +17,7 @@ const Help = ({ locale = "en" }: { locale?: Locale }) => {
     <strong>history</strong> - {copy.help.history}<br />
     <strong>accessible</strong> - {copy.help.accessible}<br />
     <strong>motion</strong> - {copy.help.motion}<br />
+    <strong>cursor</strong> - {copy.help.cursor}<br />
     <strong>lang</strong> - {copy.help.lang}<br />
     {copy.help.share}<br />
     <Link href="/?command=projects">/?command=projects</Link><br />

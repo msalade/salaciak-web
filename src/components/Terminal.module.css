@@ -35,6 +35,28 @@
   transition-duration: 0.01ms !important;
 }
 
+.shell[data-cursor-style="bar"] :global([class*="caretAfter"]) {
+  width: 2px !important;
+  height: 22px !important;
+}
+
+.shell[data-cursor-style="underline"] :global([class*="caretAfter"]) {
+  top: 20px !important;
+  width: 10px !important;
+  height: 2px !important;
+}
+
+.shell[data-cursor-style="pulse"] :global([class*="caretAfter"]) {
+  width: 10px !important;
+  height: 22px !important;
+  animation: cursorPulse 0.9s ease-in-out infinite !important;
+}
+
+@keyframes cursorPulse {
+  0%, 100% { opacity: 0.35; transform: scaleY(0.75); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .shell :global(*),
   .shell :global(*::before),

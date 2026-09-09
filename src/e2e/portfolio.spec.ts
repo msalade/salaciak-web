@@ -54,6 +54,28 @@ test("completes known command arguments with Tab", async ({ page }) => {
   await expect(editor.locator('[class*="lineText"]').last()).toContainText("cat experience.md");
 });
 
+test("cycles to the next completion candidate with Tab", async ({ page }) => {
+  await page.goto("/");
+  const editor = page.locator("#terminalEditor");
+  await editor.click();
+  await page.keyboard.type("cat ");
+  await page.keyboard.press("Tab");
+  await expect(editor.locator('[class*="lineText"]').last()).toContainText("cat about_me.md");
+  await page.keyboard.press("Tab");
+  await expect(editor.locator('[class*="lineText"]').last()).toContainText("cat me.jpeg");
+});
+
+test("expands partial argument completion on the second Tab", async ({ page }) => {
+  await page.goto("/");
+  const editor = page.locator("#terminalEditor");
+  await editor.click();
+  await page.keyboard.type("cat ex");
+  await page.keyboard.press("Tab");
+  await expect(editor.locator('[class*="lineText"]').last()).toContainText("cat experience.md");
+  await page.keyboard.press("Tab");
+  await expect(editor.locator('[class*="lineText"]').last()).toContainText("cat tech.md");
+});
+
 test("persists command history between terminal navigations", async ({ page }) => {
   await page.goto("/?command=projects");
   await expect(page.locator("#terminalEditor")).toContainText("Personal portfolio");
@@ -70,6 +92,19 @@ test("opens the semantic portfolio view through a terminal command", async ({ pa
 test("changes motion mode through a terminal command", async ({ page }) => {
   await page.goto("/?command=motion%20reduce");
   await expect(page.locator("[data-reduced-motion='true']")).toBeVisible();
+});
+
+test("switches and persists cursor animation through a terminal command", async ({ page }) => {
+  await page.goto("/?command=cursor%20pulse");
+  await expect(page.locator("[data-cursor-style='pulse']")).toBeVisible();
+  await expect.poll(() => page.evaluate(() => localStorage.getItem("salaciak-cursor-style"))).toBe('"pulse"');
+  await page.reload();
+  await expect(page.locator("[data-cursor-style='pulse']")).toBeVisible();
+
+  await page.locator("#terminalEditor").click();
+  await page.keyboard.type("cursor bar");
+  await page.keyboard.press("Enter");
+  await expect(page.locator("[data-cursor-style='bar']")).toBeVisible();
 });
 
 test("uses the requested locale for command output", async ({ page }) => {

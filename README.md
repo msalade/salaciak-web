@@ -18,6 +18,8 @@ to complete a command or a known file, theme, or recent search argument.
 Command history is saved locally and available through `history`. Type `accessible` to print
 the semantic portfolio view, `motion reduce` or `motion on` to change motion, and `lang en`
 or `lang pl` to switch language.
+Use `cursor block`, `cursor bar`, `cursor underline`, or `cursor pulse` to choose a terminal
+cursor style; the selection is saved locally and restored on the next visit.
 
 Quality checks are grouped in `npm run ci`: lint, typecheck, tests, production build,
 Playwright end-to-end tests, and `npm audit --audit-level=high`. Install the browser once
@@ -35,6 +37,8 @@ if your checkout predates the Husky dependency.
 ![image](/img/my-web.png)
 
 The application, Next.js configuration, service worker, and sitemap generator use strict TypeScript.
+
+The terminal opens with a 750 ms CRT power-on animation on every page load and refresh. Press any key or click to skip it. Shared command links skip the entrance; system reduced-motion preferences and `motion reduce` disable the animation.
 
 Use Node.js 24 LTS or newer. From `src`, run `npm install`, then `npm run dev`.
 For a production build, run `npm run build` followed by `npm start`.
