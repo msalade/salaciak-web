@@ -13,9 +13,13 @@ type EmailContextType = {
   setEmail: Dispatch<SetStateAction<string>>;
 };
 
-const EmailContext = createContext<EmailContextType>({} as EmailContextType);
+const EmailContext = createContext<EmailContextType | null>(null);
 
-export const useEmailContext = () => useContext(EmailContext);
+export const useEmailContext = () => {
+  const context = useContext(EmailContext);
+  if (!context) throw new Error("Email provider is missing");
+  return context;
+};
 
 export const EmailContextTypeProvider = ({ children }: PropsWithChildren) => {
   const [email, setEmail] = useState("");

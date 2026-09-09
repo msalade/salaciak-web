@@ -7,8 +7,10 @@ const Cv = () => {
 
   const getEmail = (token: string | null) => {
     if (token === null) {
+      setToken("");
       setMessage("Could not extract recaptcha token");
     } else {
+      setMessage("");
       setToken(token);
     }
   };
@@ -18,8 +20,8 @@ const Cv = () => {
       <Captcha onChange={getEmail} />
       {message ||
         (token && (
-          <a href={`/api/cv?token=${token}`} target="_blank">
-            Download CSV
+          <a href={`/api/cv?token=${encodeURIComponent(token)}`} target="_blank" rel="noopener noreferrer">
+            Download CV
           </a>
         ))}
     </>

@@ -7,6 +7,7 @@ const Help = () => (
     Example: cat [FILE] <br />
     <strong>curl</strong> - download file.
     Example: curl [FILE] <br />
+    <strong>pong</strong> - play Pong game <br />
     <strong>clear</strong> - clear console content <br />
     <strong>theme</strong> - set theme<br />
   </span>

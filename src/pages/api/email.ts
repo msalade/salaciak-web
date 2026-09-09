@@ -1,16 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import { withCaptchaValidator } from "../../captcha/captchaDecorator";
 
-type Data = {
-  email: string;
-};
-
-type Error = {
-  message: string;
-};
-
-export default withCaptchaValidator(
-  (_: NextApiRequest, res: NextApiResponse<Data | Error>) => {
-    res.status(200).json({ email: process.env.EMAIL as string });
+export default withCaptchaValidator<{ email: string }>((_, res) => {
+  const email = process.env.EMAIL;
+  if (!email) {
+    return res.status(503).json({ message: "Email is unavailable" });
   }
-);
+  res.status(200).json({ email });
+});

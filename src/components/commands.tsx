@@ -7,6 +7,7 @@ import Tech from "./Tech";
 import Contact from "./Contact";
 import Social from "./Social";
 import Cv from "./Cv";
+import Pong from "./Pong";
 import { ThemeType } from "./themes";
 
 const expData = [
@@ -43,6 +44,7 @@ const expData = [
 export const commands = (setTheme: (theme: ThemeType) => void) => ({
   help: Help,
   ls: Ls,
+  pong: Pong,
   theme: (theme: ThemeType) => {
     switch (theme) {
       case "light":

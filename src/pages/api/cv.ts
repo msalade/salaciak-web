@@ -1,37 +1,21 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { Readable } from "stream";
-import { pipeline } from "stream/promises";
+import { Readable } from "node:stream";
+import { pipeline } from "node:stream/promises";
 import { withCaptchaValidator } from "../../captcha/captchaDecorator";
 
-type Data = {
-  email: string;
-};
-
-type Error = {
-  message: string;
-};
-
-const handler = async (
-  _: NextApiRequest,
-  res: NextApiResponse<Data | Error>
-) => {
-  res.setHeader("Content-Type", "application/pdf");
-  res.setHeader(
-    "Content-Disposition",
-    "attachment; filename=SeniorSoftwareDeveloperMS.pdf"
-  );
-
-  try {
-    const { body } = await fetch(process.env.CSV_DOWNLOAD_URL as string);
-
-    if (body == null) {
-      return res.status(404);
-    }
-
-    await pipeline(Readable.fromWeb(body as any), res);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+export default withCaptchaValidator(async (_, res) => {
+  const downloadUrl = process.env.CSV_DOWNLOAD_URL;
+  if (!downloadUrl) {
+    return res.status(503).json({ message: "CV download is unavailable" });
   }
-};
-
-export default withCaptchaValidator(handler);
+  const response = await fetch(downloadUrl, {
+    cache: "no-store",
+    signal: AbortSignal.timeout(15_000),
+  });
+  if (!response.ok || !response.body) {
+    await response.body?.cancel();
+    return res.status(502).json({ message: "CV download is unavailable" });
+  }
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", "attachment; filename=SeniorSoftwareDeveloperMS.pdf");
+  await pipeline(Readable.fromWeb(response.body), res);
+});

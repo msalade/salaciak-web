@@ -1,9 +1,5 @@
-# *
 User-agent: *
 Allow: /
+Disallow: /api/
 
-# Host
-Host: https://michalsalaciak.pl
-
-# Sitemaps
 Sitemap: https://michalsalaciak.pl/sitemap.xml

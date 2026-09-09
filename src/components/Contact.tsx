@@ -6,31 +6,27 @@ const Contact = () => {
   const [message, setMessage] = useState("");
   const { setEmail, email } = useEmailContext();
 
-  const getEmail = (token: string | null) => {
-    if (token === null) {
+  const getEmail = async (token: string | null) => {
+    if (!token) {
       setMessage("Could not extract recaptcha token");
-    } else {
-      fetch(`/api/email?token=${token}`)
-        .then(async (resp) => {
-          const respJson = await resp.json();
-          if (resp.status === 200) {
-            setEmail(respJson.email || "Email not found");
-          }
-
-          if (resp.status === 400) {
-            setMessage(respJson.message || "Email not found");
-          }
-        })
-        .catch((err) => setMessage(`Could not fetch email: ${err.message}`));
+      return;
+    }
+    setMessage("");
+    try {
+      const response = await fetch(`/api/email?token=${encodeURIComponent(token)}`, { cache: "no-store" });
+      const result: unknown = await response.json();
+      if (response.ok && typeof result === "object" && result !== null &&
+          "email" in result && typeof result.email === "string") {
+        setEmail(result.email);
+      } else {
+        setMessage("Could not fetch email. Please try again.");
+      }
+    } catch {
+      setMessage("Could not fetch email. Please try again.");
     }
   };
 
-  return (
-    <>
-      <Captcha onChange={getEmail} />
-      {email || message}
-    </>
-  );
+  return <><Captcha onChange={getEmail} />{email || message}</>;
 };
 
 export default memo(Contact);
