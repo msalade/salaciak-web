@@ -10,6 +10,16 @@ test("opens a shared search command and renders linked results", async ({ page }
   );
 });
 
+test("shows clickable command suggestions", async ({ page }) => {
+  await page.goto("/");
+  const menu = page.getByRole("navigation", { name: "Command menu" });
+  await expect(menu).toBeVisible();
+  await expect(menu.getByRole("link", { name: /projects/ })).toHaveAttribute(
+    "href",
+    "/?command=projects",
+  );
+});
+
 test("uses the requested locale for command output", async ({ page }) => {
   await page.goto("/pl/?command=help");
   await expect(page.getByText("Dostępne polecenia:")).toBeVisible();

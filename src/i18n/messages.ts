@@ -2,10 +2,10 @@ export const supportedLocales = ["en", "pl"] as const;
 export type Locale = (typeof supportedLocales)[number];
 
 export type Messages = {
-  terminal: { welcome: string; prompt: string; commandNotFound: (command: string) => string };
+  terminal: { welcome: string; prompt: string; commandNotFound: (command: string) => string; suggestionsTitle: string; suggestionsHint: string };
   help: {
     available: string; projects: string; search: string; ls: string; cat: string;
-    curl: string; pong: string; clear: string; theme: string; share: string;
+    curl: string; pong: string; clear: string; theme: string; help: string; share: string;
   };
   ls: { about: string; image: string; experience: string; tech: string; contact: string; social: string; cv: string };
   projects: { description: string; source: string };
@@ -20,8 +20,8 @@ export type Messages = {
 };
 
 const english: Messages = {
-  terminal: { welcome: "Type 'help' for all available commands.", prompt: "msalaciak >", commandNotFound: (command) => `command not found: ${command}` },
-  help: { available: "Available commands:", projects: "explore portfolio projects", search: "search experience, skills, projects, and about information. Example: search kubernetes", ls: "list directory contents", cat: "concatenate files and print on the standard output. Example: cat [FILE]", curl: "download file. Example: curl [FILE]", pong: "play Pong game", clear: "clear console content", theme: "set theme", share: "Share a command by adding it to the URL, for example:" },
+  terminal: { welcome: "Type 'help' for all available commands.", prompt: "msalaciak >", commandNotFound: (command) => `command not found: ${command}`, suggestionsTitle: "Command menu", suggestionsHint: "Click a command or press Tab to complete it." },
+  help: { available: "Available commands:", projects: "explore portfolio projects", search: "search experience, skills, projects, and about information. Example: search kubernetes", ls: "list directory contents", cat: "concatenate files and print on the standard output. Example: cat [FILE]", curl: "download file. Example: curl [FILE]", pong: "play Pong game", clear: "clear console content", theme: "set theme", help: "show available commands", share: "Share a command by adding it to the URL, for example:" },
   ls: { about: "about_me.md", image: "me.jpeg", experience: "experience.md", tech: "tech.md", contact: "contact.md", social: "social.md", cv: "cv.pdf" },
   projects: { description: "Personal portfolio with an interactive terminal, built with Next.js, React, and TypeScript. Includes experience, skills, a protected CV download, and Pong.", source: "View source on GitHub" },
   search: { usage: "Usage: search [QUERY]", noResults: (query) => `No results for "${query}".`, heading: (query) => `Search results for "${query}":`, open: "Open", category: { Experience: "Experience", Skills: "Skills", Projects: "Projects", About: "About" } },
@@ -35,8 +35,8 @@ const english: Messages = {
 };
 
 const polish: Messages = {
-  terminal: { welcome: "Wpisz 'help', aby zobaczyć dostępne polecenia.", prompt: "msalaciak >", commandNotFound: (command) => `nie znaleziono polecenia: ${command}` },
-  help: { available: "Dostępne polecenia:", projects: "pokaż projekty w portfolio", search: "wyszukaj doświadczenie, technologie, projekty i informacje o mnie. Przykład: search kubernetes", ls: "wyświetl zawartość katalogu", cat: "wyświetl zawartość pliku. Przykład: cat [PLIK]", curl: "pobierz plik. Przykład: curl [PLIK]", pong: "zagraj w Pong", clear: "wyczyść konsolę", theme: "ustaw motyw", share: "Udostępnij polecenie, dodając je do adresu URL, na przykład:" },
+  terminal: { welcome: "Wpisz 'help', aby zobaczyć dostępne polecenia.", prompt: "msalaciak >", commandNotFound: (command) => `nie znaleziono polecenia: ${command}`, suggestionsTitle: "Menu poleceń", suggestionsHint: "Kliknij polecenie lub naciśnij Tab, aby je uzupełnić." },
+  help: { available: "Dostępne polecenia:", projects: "pokaż projekty w portfolio", search: "wyszukaj doświadczenie, technologie, projekty i informacje o mnie. Przykład: search kubernetes", ls: "wyświetl zawartość katalogu", cat: "wyświetl zawartość pliku. Przykład: cat [PLIK]", curl: "pobierz plik. Przykład: curl [PLIK]", pong: "zagraj w Pong", clear: "wyczyść konsolę", theme: "ustaw motyw", help: "pokaż dostępne polecenia", share: "Udostępnij polecenie, dodając je do adresu URL, na przykład:" },
   ls: english.ls,
   projects: { description: "Osobiste portfolio z interaktywnym terminalem, stworzone w Next.js, React i TypeScript. Zawiera doświadczenie, umiejętności, chroniony plik CV i grę Pong.", source: "Zobacz kod na GitHub" },
   search: { usage: "Użycie: search [ZAPYTANIE]", noResults: (query) => `Brak wyników dla „${query}”.`, heading: (query) => `Wyniki wyszukiwania dla „${query}”:`, open: "Otwórz", category: { Experience: "Doświadczenie", Skills: "Umiejętności", Projects: "Projekty", About: "O mnie" } },

@@ -12,6 +12,9 @@ Search is available with `search [QUERY]`; it searches experience, skills, proje
 and the profile summary. Results include links back to terminal commands, for example
 `/?command=search%20kubernetes`.
 
+The terminal shows a clickable command menu with common examples. While typing a command,
+press Tab to complete it; arguments are left untouched.
+
 Quality checks are grouped in `npm run ci`: lint, typecheck, tests, production build,
 Playwright end-to-end tests, and `npm audit --audit-level=high`. Install the browser once
 with `npm run e2e:install`; run `npm run e2e` locally. GitHub Actions runs these checks as

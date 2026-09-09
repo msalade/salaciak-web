@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import { useRouter } from "next/router";
 import { parseCommandLink } from "../terminal/commandLinks";
 import LinkedCommand from "./LinkedCommand";
+import CommandMenu from "./CommandMenu";
 import { getMessages, resolveLocale } from "../i18n/messages";
 
 const Terminal = () => {
@@ -24,6 +25,7 @@ const Terminal = () => {
 
   return (
     <TerminalContextProvider key={linkedCommand ?? ""}>
+      <CommandMenu locale={locale} />
       <LinkedCommand command={linkedCommand} handlers={handlers} prompt={copy.terminal.prompt} />
       <ReactTerminal
         commands={handlers}
